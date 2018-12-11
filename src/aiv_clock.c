@@ -1,12 +1,27 @@
 #include <aiv_clock.h>
 #include <aiv_context.h>
+#include <aiv_manager.h>
+#include <stb_image.h>
+
+#define SECONDS_PER_MINUTE  60  
+#define LAP_DEGREES         360
 
 extern aiv_context_t* context;
-int sec;
 
-static void _aiv_clock_start(aiv_clock_t* clock, int seconds)
+static int _aiv_clock_get_frame(aiv_clock_t* clock)
 {
-    clock->rotation = seconds;
+    return get_system_clock_seconds();
+}
+
+static void _aiv_clock_increment_frame(aiv_clock_t* clock)
+{
+    int next_frame = (clock->aiv_clock_get_frame(clock) + 1);
+    clock->rotation = (clock->real_clock_frame * next_frame);
+}
+
+static void _aiv_clock_set_frame(aiv_clock_t* clock, int64_t offset)
+{
+    clock->rotation = (clock->real_clock_frame * offset);
 }
 
 static void _aiv_clock_tick(aiv_clock_t* clock, int seconds)
@@ -16,16 +31,22 @@ static void _aiv_clock_tick(aiv_clock_t* clock, int seconds)
     clock->dst.w = clock->width;
     clock->dst.h = clock->height;
 
-    int second_rot = (360 / 60);
-
-    clock->rotation = second_rot * seconds;
+    if(clock->is_paused == 0)
+    {
+        clock->rotation = (clock->real_clock_frame * seconds);
+    }
 
     SDL_RenderCopyEx(context->renderer, clock->clock_hand, NULL, &clock->dst, clock->rotation, &clock->pivot, SDL_FLIP_NONE);
 }
 
 static void _aiv_clock_pause(aiv_clock_t* clock)
 {
-    
+    clock->is_paused = 1;
+}
+
+static void _aiv_clock_resume(aiv_clock_t* clock)
+{
+    clock->is_paused = 0;
 }
 
 aiv_clock_t* aiv_clock_new(const char* path, int pos_x, int pos_y, int start_seconds)
@@ -63,9 +84,13 @@ aiv_clock_t* aiv_clock_new(const char* path, int pos_x, int pos_y, int start_sec
     aiv_clock->height = height;
     aiv_clock->pos_x = pos_x;
     aiv_clock->pos_y = pos_y;
-    aiv_clock->aiv_clock_start = _aiv_clock_start;
+    aiv_clock->aiv_clock_increment_frame = _aiv_clock_increment_frame;
+    aiv_clock->aiv_clock_set_frame = _aiv_clock_set_frame;
     aiv_clock->aiv_clock_tick = _aiv_clock_tick;
     aiv_clock->aiv_clock_pause = _aiv_clock_pause;
+    aiv_clock->aiv_clock_resume = _aiv_clock_resume;
+    aiv_clock->aiv_clock_get_frame = _aiv_clock_get_frame;
+    aiv_clock->real_clock_frame = (LAP_DEGREES / SECONDS_PER_MINUTE);
 
     aiv_clock->pivot.x = aiv_clock->width / 2;
     aiv_clock->pivot.y = aiv_clock->height - 10;

@@ -10,7 +10,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stb_image.h>
 
 typedef struct aiv_clock{
     SDL_Texture* clock_hand;
@@ -22,9 +21,14 @@ typedef struct aiv_clock{
     int width, height;
     int seconds;
     int laps;
-    void(*aiv_clock_start)(struct aiv_clock* clock, int seconds);
+    char is_paused;
+    int real_clock_frame;
+    void(*aiv_clock_increment_frame)(struct aiv_clock* clock);
+    void(*aiv_clock_set_frame)(struct aiv_clock* clock, int64_t offset);
     void(*aiv_clock_tick)(struct aiv_clock* clock, int seconds);
     void(*aiv_clock_pause)(struct aiv_clock* clock);
+    void(*aiv_clock_resume)(struct aiv_clock* clock);
+    int(*aiv_clock_get_frame)(struct aiv_clock* clock);
 }aiv_clock_t;
 
 aiv_clock_t* aiv_clock_new(const char* path, int pos_x, int pos_y, int start_seconds);
