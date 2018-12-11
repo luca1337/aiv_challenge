@@ -5,7 +5,6 @@ static void _aiv_context_destroy(aiv_context_t* context)
     SDL_DestroyRenderer(context->renderer);
     SDL_DestroyWindow(context->window);
     SDL_Quit();
-    context->is_running = 0;
 }
 
 static void _aiv_context_update(aiv_context_t* context)
@@ -15,7 +14,7 @@ static void _aiv_context_update(aiv_context_t* context)
     {
         if(event.type == SDL_QUIT)
         {
-            context->aiv_context_destroy(context);
+            context->is_running = 0;
         }
     }
     

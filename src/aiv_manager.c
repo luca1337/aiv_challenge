@@ -24,6 +24,10 @@ static void _aiv_manager_tick(aiv_manager_t* aiv_manager)
 	{
 		context->aiv_context_update(context);
 	}
+
+    // release resources
+    context->aiv_context_destroy(context);
+    free(context);
 }
 
 aiv_manager_t aiv_manager_init()
@@ -33,7 +37,7 @@ aiv_manager_t aiv_manager_init()
 
     context = aiv_context_new("aiv_challenge", 800, 600, _aiv_draw);
 
-	aiv_clock = aiv_clock_new("clock_hand.png", context->width / 2, context->height / 2, 0);
+	aiv_clock = aiv_clock_new("clock_hand.png", context->width / 2, context->height / 2);
 
     return aiv_manager;
 }
