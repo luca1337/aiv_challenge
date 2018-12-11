@@ -20,6 +20,7 @@ typedef struct aiv_clock{
     int pos_x, pos_y;
     int width, height;
     int seconds;
+    int clock_offs;
     int laps;
     char is_paused;
     int real_clock_frame;
@@ -31,6 +32,6 @@ typedef struct aiv_clock{
     int(*aiv_clock_get_frame)(struct aiv_clock* clock);
 }aiv_clock_t;
 
-aiv_clock_t* aiv_clock_new(const char* path, int pos_x, int pos_y, int start_seconds);
+aiv_clock_t* aiv_clock_new(const char* path, int pos_x, int pos_y);
 
 #endif

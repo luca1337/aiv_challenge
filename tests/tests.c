@@ -87,6 +87,12 @@ TEST(clock_ticking_custom_start_increased_by_one_tick)
 	aiv_clock->aiv_clock_set_frame(aiv_clock, 25);
 
 	ASSERT_THAT(aiv_clock->rotation == 150);
+
+	// incrementing by one it should do + 6 ticks that is one second (360 / 60 seconds)
+	aiv_clock->aiv_clock_increment_frame(aiv_clock);
+
+	ASSERT_THAT(aiv_clock->rotation == 156);
+
 }
 
 int main(int argc, char** argv)
@@ -96,6 +102,7 @@ int main(int argc, char** argv)
 	RUN_TEST(clock_position_changed_green);
 	RUN_TEST(clock_not_paused);
 	RUN_TEST(clock_ticking_custom_start);
+	RUN_TEST(clock_ticking_custom_start_increased_by_one_tick);
 	PRINT_TEST_RESULTS();
 	return 0;
 }

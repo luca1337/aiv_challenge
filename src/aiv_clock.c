@@ -15,12 +15,13 @@ static int _aiv_clock_get_frame(aiv_clock_t* clock)
 
 static void _aiv_clock_increment_frame(aiv_clock_t* clock)
 {
-    int next_frame = (clock->aiv_clock_get_frame(clock) + 1);
+    int next_frame = (clock->clock_offs + 1);
     clock->rotation = (clock->real_clock_frame * next_frame);
 }
 
 static void _aiv_clock_set_frame(aiv_clock_t* clock, int64_t offset)
 {
+    clock->clock_offs = offset;
     clock->rotation = (clock->real_clock_frame * offset);
 }
 
@@ -49,7 +50,7 @@ static void _aiv_clock_resume(aiv_clock_t* clock)
     clock->is_paused = 0;
 }
 
-aiv_clock_t* aiv_clock_new(const char* path, int pos_x, int pos_y, int start_seconds)
+aiv_clock_t* aiv_clock_new(const char* path, int pos_x, int pos_y)
 {
     aiv_clock_t* aiv_clock = SDL_malloc(sizeof(aiv_clock_t));
     if(!aiv_clock){
