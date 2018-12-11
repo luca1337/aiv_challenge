@@ -19,7 +19,7 @@ static void _aiv_context_update(aiv_context_t* context)
         }
     }
     
-    SDL_SetRenderDrawColor(context->renderer, 115, 0, 0, 0);
+    SDL_SetRenderDrawColor(context->renderer, 0, 0, 0, 0);
     SDL_RenderClear(context->renderer);
 
     context->aiv_context_draw(context);
