@@ -12,7 +12,7 @@ static aiv_clock_t* aiv_clock;
 
 #define INIT_CLOCK(px, py)\
 	context = aiv_context_new("aiv_test_clock", 800, 600, NULL);\
-	aiv_clock = aiv_clock_new("clock_hand.png", px, py, 0)
+	aiv_clock = aiv_clock_new("clock_hand.png", px, py)
 
 
 TEST(clock_new_green)
