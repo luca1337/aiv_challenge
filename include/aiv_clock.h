@@ -22,8 +22,8 @@ typedef struct aiv_clock{
     int width, height;
     int seconds;
     int laps;
-    void(*aiv_clock_start)(struct aiv_clock* clock);
-    void(*aiv_clock_tick)(struct aiv_clock* clock);
+    void(*aiv_clock_start)(struct aiv_clock* clock, int seconds);
+    void(*aiv_clock_tick)(struct aiv_clock* clock, int seconds);
     void(*aiv_clock_pause)(struct aiv_clock* clock);
 }aiv_clock_t;
 

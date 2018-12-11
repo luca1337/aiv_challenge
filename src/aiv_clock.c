@@ -2,18 +2,23 @@
 #include <aiv_context.h>
 
 extern aiv_context_t* context;
+int sec;
 
-static void _aiv_clock_start(aiv_clock_t* clock)
+static void _aiv_clock_start(aiv_clock_t* clock, int seconds)
 {
-
+    clock->rotation = seconds;
 }
 
-static void _aiv_clock_tick(aiv_clock_t* clock)
+static void _aiv_clock_tick(aiv_clock_t* clock, int seconds)
 {
     clock->dst.x = clock->pos_x - clock->width;
     clock->dst.y = clock->pos_y - clock->height;
     clock->dst.w = clock->width;
     clock->dst.h = clock->height;
+
+    int second_rot = (360 / 60);
+
+    clock->rotation = second_rot * seconds;
 
     SDL_RenderCopyEx(context->renderer, clock->clock_hand, NULL, &clock->dst, clock->rotation, &clock->pivot, SDL_FLIP_NONE);
 }
