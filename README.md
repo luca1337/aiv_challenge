@@ -1,3 +1,3 @@
 # aiv_challenge
-In order to compile the binary to just run "make.exe" using the makefile
-to compile it for the binary tests just run "make.exe test"
+each folder has a it's relative Makefile, to run it for the build just run "./make.exe"
+if you want to run it for the tests just run "./make.exe test"
