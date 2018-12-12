@@ -24,7 +24,7 @@ TEST(aiv_file_read_size_green)
     aiv_file_t aiv_file;
     aiv_file_init(&aiv_file);
 
-    int result = aiv_file_readfloat_bin(&aiv_file, "correct_size.bin");
+    int result = aiv_file_readfloat_bin(&aiv_file, "correct_size.bin"); // predefined file size [40 bytes] sz(float) * 10
 
     ASSERT_THAT(result == 0);
 }
@@ -34,7 +34,7 @@ TEST(aiv_file_read_size_red)
     aiv_file_t aiv_file;
     aiv_file_init(&aiv_file);
 
-    int result = aiv_file_readfloat_bin(&aiv_file, "incorrect_size.bin");
+    int result = aiv_file_readfloat_bin(&aiv_file, "incorrect_size.bin"); // predefined file size [44 bytes] sz(float) * 11
 
     ASSERT_THAT(result == -1);
 }
